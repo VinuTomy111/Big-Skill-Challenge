@@ -16,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     ?? "Server=(localdb)\\mssqllocaldb;Database=SkillChallengeDb;Trusted_Connection=True;"));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddSingleton<ITokenProvider, TokenProvider>();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 

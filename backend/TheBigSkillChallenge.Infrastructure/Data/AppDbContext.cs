@@ -15,6 +15,8 @@ public class AppDbContext : DbContext
     public DbSet<EmailVerificationOTP> EmailVerificationOTPs => Set<EmailVerificationOTP>();
     public DbSet<AIValidationResult> AIValidationResults => Set<AIValidationResult>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<QuizSession> QuizSessions => Set<QuizSession>();
+    public DbSet<QuizAnswer> QuizAnswers => Set<QuizAnswer>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
