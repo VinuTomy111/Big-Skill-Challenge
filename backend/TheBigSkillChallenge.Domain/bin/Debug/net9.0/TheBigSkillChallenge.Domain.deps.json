@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "TheBigSkillChallenge.Domain/1.0.0": {
+        "runtime": {
+          "TheBigSkillChallenge.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TheBigSkillChallenge.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
