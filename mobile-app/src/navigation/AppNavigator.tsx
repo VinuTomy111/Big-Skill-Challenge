@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LandingScreen from '../screens/LandingScreen';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
+import VerifyOtpScreen from '../screens/VerifyOtpScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,11 @@ export default function AppNavigator() {
         <Stack.Screen 
           name="Login" 
           component={LoginScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="VerifyOtp" 
+          component={VerifyOtpScreen} 
           options={{ headerShown: false }} 
         />
         <Stack.Screen 
