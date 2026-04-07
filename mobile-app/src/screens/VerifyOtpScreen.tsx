@@ -2,24 +2,45 @@ import React, { useState } from 'react';
 import { 
   View, Text, StyleSheet, TouchableOpacity, SafeAreaView, 
   TextInput, KeyboardAvoidingView, Platform, ScrollView,
-  StatusBar, Dimensions
+  StatusBar, Dimensions, ActivityIndicator
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import apiClient from '../api/client';
 
 const { width } = Dimensions.get('window');
 
 export default function VerifyOtpScreen({ navigation, route }: any) {
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
-  const userEmail = route?.params?.email || 'j***@example.com';
+  const [otp, setOtp] = useState(['', '', '', '']);
+  const [isLoading, setIsLoading] = useState(false);
+  const userEmail = route?.params?.email || 'test@example.com';
 
   const handleOtpChange = (value: string, index: number) => {
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
+  };
 
-    // Auto-focus next input if value is filled
-    if (value.length === 1 && index < 5) {
-      // In a real app, you'd use refs here to focus the next input
+  const handleVerifyOtp = async () => {
+    const fullOtp = otp.join('');
+    if (fullOtp.length !== 4) {
+      alert('Please enter the full 4-digit code');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // Call the verify-otp API
+      await apiClient.post('/api/v1/Auth/verify-otp', { 
+        email: userEmail, 
+        otp: fullOtp 
+      });
+
+      // Navigate to Home on success
+      navigation.navigate('Home');
+    } catch (err: any) {
+      alert(err.message || 'Verification Failed. Please check the code and try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -69,7 +90,7 @@ export default function VerifyOtpScreen({ navigation, route }: any) {
             </View>
 
             {/* OTP Input Group */}
-            <Text style={styles.inputLabel}>Enter 6-digit verification code</Text>
+            <Text style={styles.inputLabel}>Enter 4-digit verification code</Text>
             <View style={styles.otpContainer}>
               {otp.map((digit, idx) => (
                 <View key={idx} style={styles.otpBox}>
@@ -80,6 +101,7 @@ export default function VerifyOtpScreen({ navigation, route }: any) {
                     value={digit}
                     onChangeText={(val) => handleOtpChange(val, idx)}
                     placeholderTextColor="rgba(255,255,255,0.2)"
+                    editable={!isLoading}
                   />
                 </View>
               ))}
@@ -88,14 +110,19 @@ export default function VerifyOtpScreen({ navigation, route }: any) {
             {/* CTA Button */}
             <TouchableOpacity 
               style={styles.ctaWrap} 
-              onPress={() => navigation.navigate('Home')}
+              onPress={handleVerifyOtp}
+              disabled={isLoading}
             >
               <LinearGradient 
                 colors={['#059669', '#10B981']} 
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={styles.btnCta}
               >
-                <Text style={styles.btnCtaText}>Verify →</Text>
+                {isLoading ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={styles.btnCtaText}>Verify →</Text>
+                )}
               </LinearGradient>
             </TouchableOpacity>
 
@@ -236,7 +263,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   otpBox: {
-    width: (width - 48 - 50) / 6,
+    width: (width - 48 - 60) / 4,
     height: 54,
     backgroundColor: 'rgba(255,255,255,0.03)',
     borderColor: 'rgba(255,255,255,0.1)',

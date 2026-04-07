@@ -2,16 +2,83 @@ import React, { useState } from 'react';
 import { 
   View, Text, StyleSheet, TouchableOpacity, SafeAreaView, 
   TextInput, KeyboardAvoidingView, Platform, ScrollView,
-  StatusBar
+  StatusBar, ActivityIndicator, Alert
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import apiClient from '../api/client';
 
 export default function LoginScreen({ navigation }: any) {
   const [isCreateMode, setIsCreateMode] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
   const [is18Plus, setIs18Plus] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleRegister = async () => {
+    if (!email || !password || (isCreateMode && (!firstName || !lastName || !phone))) {
+      Alert.alert('Error', 'Please fill in all required fields');
+      return;
+    }
+
+    if (!is18Plus || !agreedToTerms) {
+      Alert.alert('Error', 'Please confirm you are 18+ and agree to the terms');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // Call the register API
+      const response = await apiClient.post('/api/v1/Auth/register', { 
+        firstName,
+        lastName,
+        email, 
+        phone,
+        password 
+      });
+
+      // Assuming success if wait succeeds (apiClient throws on non-ok)
+      navigation.navigate('VerifyOtp', { email });
+    } catch (err: any) {
+      Alert.alert('Registration Failed', err.message || 'Check your connection or try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // Call the login API
+      const response = await apiClient.post('/api/v1/Auth/login', { 
+        email, 
+        password 
+      });
+
+      // Navigate to Home on success
+      navigation.navigate('Home');
+    } catch (err: any) {
+      Alert.alert('Login Failed', err.message || 'Invalid email or password.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCtaPress = () => {
+    if (isCreateMode) {
+      handleRegister();
+    } else {
+      handleLogin();
+    }
+  };
 
   return (
     <LinearGradient
@@ -49,6 +116,7 @@ export default function LoginScreen({ navigation }: any) {
                 style={styles.toggleBtn} 
                 onPress={() => setIsCreateMode(true)}
                 activeOpacity={0.8}
+                disabled={isLoading}
               >
                 {isCreateMode ? (
                   <LinearGradient
@@ -67,6 +135,7 @@ export default function LoginScreen({ navigation }: any) {
                 style={styles.toggleBtn} 
                 onPress={() => setIsCreateMode(false)}
                 activeOpacity={0.8}
+                disabled={isLoading}
               >
                 {!isCreateMode ? (
                   <LinearGradient
@@ -83,6 +152,37 @@ export default function LoginScreen({ navigation }: any) {
             </View>
 
             {/* Form Fields */}
+            {isCreateMode && (
+              <View style={styles.rowForm}>
+                <View style={[styles.formGroup, { flex: 1, marginRight: 10 }]}>
+                  <Text style={styles.inputLabel}>First Name</Text>
+                  <View style={styles.inputWrap}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="First Name"
+                      placeholderTextColor="rgba(255,255,255,0.3)"
+                      value={firstName}
+                      onChangeText={setFirstName}
+                      editable={!isLoading}
+                    />
+                  </View>
+                </View>
+                <View style={[styles.formGroup, { flex: 1 }]}>
+                  <Text style={styles.inputLabel}>Last Name</Text>
+                  <View style={styles.inputWrap}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Last Name"
+                      placeholderTextColor="rgba(255,255,255,0.3)"
+                      value={lastName}
+                      onChangeText={setLastName}
+                      editable={!isLoading}
+                    />
+                  </View>
+                </View>
+              </View>
+            )}
+
             <View style={styles.formGroup}>
               <Text style={styles.inputLabel}>Email Address</Text>
               <View style={styles.inputWrap}>
@@ -94,9 +194,29 @@ export default function LoginScreen({ navigation }: any) {
                   autoCapitalize="none"
                   value={email}
                   onChangeText={setEmail}
+                  editable={!isLoading}
                 />
               </View>
             </View>
+
+            {isCreateMode && (
+              <>
+                <View style={styles.formGroup}>
+                  <Text style={styles.inputLabel}>Phone Number</Text>
+                  <View style={styles.inputWrap}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="+1 (555) 000-0000"
+                      placeholderTextColor="rgba(255,255,255,0.3)"
+                      keyboardType="phone-pad"
+                      value={phone}
+                      onChangeText={setPhone}
+                      editable={!isLoading}
+                    />
+                  </View>
+                </View>
+              </>
+            )}
 
             <View style={styles.formGroup}>
               <Text style={styles.inputLabel}>Password</Text>
@@ -108,6 +228,7 @@ export default function LoginScreen({ navigation }: any) {
                   secureTextEntry
                   value={password}
                   onChangeText={setPassword}
+                  editable={!isLoading}
                 />
               </View>
             </View>
@@ -121,6 +242,7 @@ export default function LoginScreen({ navigation }: any) {
                   style={styles.checkboxRow} 
                   onPress={() => setIs18Plus(!is18Plus)}
                   activeOpacity={0.7}
+                  disabled={isLoading}
                 >
                   <View style={[styles.checkbox, is18Plus && styles.checkboxChecked]}>
                     {is18Plus && <Text style={styles.checkMark}>✓</Text>}
@@ -134,6 +256,7 @@ export default function LoginScreen({ navigation }: any) {
                   style={styles.checkboxRow} 
                   onPress={() => setAgreedToTerms(!agreedToTerms)}
                   activeOpacity={0.7}
+                  disabled={isLoading}
                 >
                   <View style={[styles.checkbox, agreedToTerms && styles.checkboxChecked]}>
                     {agreedToTerms && <Text style={styles.checkMark}>✓</Text>}
@@ -148,22 +271,21 @@ export default function LoginScreen({ navigation }: any) {
             {/* CTA Button */}
             <TouchableOpacity 
               style={styles.ctaWrap} 
-              onPress={() => {
-                if (isCreateMode) {
-                  navigation.navigate('VerifyOtp');
-                } else {
-                  navigation.navigate('Home');
-                }
-              }}
+              onPress={handleCtaPress}
+              disabled={isLoading}
             >
               <LinearGradient 
                 colors={['#059669', '#10B981']} 
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={styles.btnCta}
               >
-                <Text style={styles.btnCtaText}>
-                  {isCreateMode ? 'Create Account →' : 'Log In →'}
-                </Text>
+                {isLoading ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={styles.btnCtaText}>
+                    {isCreateMode ? 'Create Account →' : 'Log In →'}
+                  </Text>
+                )}
               </LinearGradient>
             </TouchableOpacity>
 
@@ -262,6 +384,9 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.4)',
     fontWeight: '600',
     fontSize: 14,
+  },
+  rowForm: {
+    flexDirection: 'row',
   },
   formGroup: {
     marginBottom: 20,

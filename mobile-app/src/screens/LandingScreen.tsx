@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, 
-  SafeAreaView, Dimensions, StatusBar 
+import {
+  View, Text, StyleSheet, ScrollView, Image, TouchableOpacity,
+  SafeAreaView, Dimensions, StatusBar
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -43,12 +43,12 @@ export default function LandingScreen({ navigation }: any) {
 
   // Time logic for countdown
   const [timeLeft, setTimeLeft] = useState({ d: 89, h: 18, m: 0, s: 0 });
-  
+
   useEffect(() => {
     const end = new Date();
     end.setDate(end.getDate() + 89);
     end.setHours(end.getHours() + 18);
-    
+
     const timer = setInterval(() => {
       let diff = end.getTime() - Date.now();
       if (diff < 0) diff = 0;
@@ -66,7 +66,7 @@ export default function LandingScreen({ navigation }: any) {
     const slideSize = event.nativeEvent.layoutMeasurement.width;
     const index = event.nativeEvent.contentOffset.x / slideSize;
     const roundIndex = Math.round(index);
-    if(roundIndex !== activeSlide && roundIndex >= 0 && roundIndex < CAROUSEL_DATA.length) {
+    if (roundIndex !== activeSlide && roundIndex >= 0 && roundIndex < CAROUSEL_DATA.length) {
       setActiveSlide(roundIndex);
     }
   };
@@ -82,7 +82,7 @@ export default function LandingScreen({ navigation }: any) {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.logoText}>Big Skill Challenge™</Text>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.btnSignin}
             onPress={() => navigation.navigate('Login')} // Redirect to login as placeholder
           >
@@ -90,12 +90,12 @@ export default function LandingScreen({ navigation }: any) {
           </TouchableOpacity>
         </View>
 
-        <ScrollView 
+        <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
         >
-          {/* BIG WIN Badge Map */}
-          <View style={styles.badgeWrap}>
+
+          {/* <View style={styles.badgeWrap}>
             <Text style={styles.flameEmojiLeft}>⚡</Text>
             <LinearGradient 
               colors={['#10B981', '#059669']} 
@@ -106,16 +106,16 @@ export default function LandingScreen({ navigation }: any) {
               <Text style={styles.badgeBigText}>WIN</Text>
             </LinearGradient>
             <Text style={styles.flameEmojiRight}>⚡</Text>
-          </View>
+          </View> */}
 
           <Text style={styles.heroTitle}>The Big Skill Challenge™</Text>
           <Text style={styles.heroSub}>Answer the prompt · Win the prize · Pure skill</Text>
 
           {/* Carousel */}
           <View style={styles.carouselOuter}>
-            <ScrollView 
-              horizontal 
-              pagingEnabled 
+            <ScrollView
+              horizontal
+              pagingEnabled
               showsHorizontalScrollIndicator={false}
               onScroll={handleScroll}
               scrollEventThrottle={16}
@@ -124,17 +124,17 @@ export default function LandingScreen({ navigation }: any) {
                 <View key={item.id} style={styles.prizeSlide}>
                   <View style={styles.prizeImgWrap}>
                     <Image source={item.img} style={styles.prizeImg} resizeMode="cover" />
-                    
-                    <LinearGradient 
-                      colors={item.badgeColor as any} 
+
+                    <LinearGradient
+                      colors={item.badgeColor as any}
                       start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                       style={styles.activeBadge}
                     >
                       <Text style={styles.activeBadgeText}>{item.badge}</Text>
                     </LinearGradient>
 
-                    <LinearGradient 
-                      colors={['transparent', 'rgba(0,0,0,0.85)']} 
+                    <LinearGradient
+                      colors={['transparent', 'rgba(0,0,0,0.85)']}
                       style={styles.prizeOverlay}
                     >
                       <Text style={styles.prizeTag}>{item.tag}</Text>
@@ -148,9 +148,9 @@ export default function LandingScreen({ navigation }: any) {
 
             <View style={styles.carouselDots}>
               {CAROUSEL_DATA.map((_, i) => (
-                <View 
-                  key={i} 
-                  style={[styles.cDot, activeSlide === i ? styles.cDotActive : null]} 
+                <View
+                  key={i}
+                  style={[styles.cDot, activeSlide === i ? styles.cDotActive : null]}
                 />
               ))}
             </View>
@@ -158,9 +158,9 @@ export default function LandingScreen({ navigation }: any) {
 
           {/* CTA */}
           <View style={styles.ctaWrap}>
-            <TouchableOpacity style={{width: '100%'}}>
-              <LinearGradient 
-                colors={['#059669', '#10B981']} 
+            <TouchableOpacity style={{ width: '100%' }}>
+              <LinearGradient
+                colors={['#059669', '#10B981']}
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={styles.btnCta}
               >
@@ -197,18 +197,18 @@ export default function LandingScreen({ navigation }: any) {
           <View style={styles.aiSection}>
             <Text style={styles.aiTitle}>AI-Assisted.{'\n'}Independently Verified.</Text>
             <View style={styles.featureCards}>
-               {[
-                 { i: '⚙️', l: 'Deterministic', d: 'Fixed rubric — no random outputs' },
-                 { i: '🛡️', l: 'Trust', d: 'Immutable audit trail per entry' },
-                 { i: '🔒', l: 'Sealed', d: 'Submissions checksummed on submit' },
-                 { i: '👩‍⚖️', l: 'Verified', d: '3 human judges confirm all winners' }
-               ].map((f, idx) => (
-                 <View key={idx} style={styles.fCard}>
-                   <Text style={styles.fIcon}>{f.i}</Text>
-                   <Text style={styles.fLabel}>{f.l}</Text>
-                   <Text style={styles.fDesc}>{f.d}</Text>
-                 </View>
-               ))}
+              {[
+                { i: '⚙️', l: 'Deterministic', d: 'Fixed rubric — no random outputs' },
+                { i: '🛡️', l: 'Trust', d: 'Immutable audit trail per entry' },
+                { i: '🔒', l: 'Sealed', d: 'Submissions checksummed on submit' },
+                { i: '👩‍⚖️', l: 'Verified', d: '3 human judges confirm all winners' }
+              ].map((f, idx) => (
+                <View key={idx} style={styles.fCard}>
+                  <Text style={styles.fIcon}>{f.i}</Text>
+                  <Text style={styles.fLabel}>{f.l}</Text>
+                  <Text style={styles.fDesc}>{f.d}</Text>
+                </View>
+              ))}
             </View>
           </View>
 
