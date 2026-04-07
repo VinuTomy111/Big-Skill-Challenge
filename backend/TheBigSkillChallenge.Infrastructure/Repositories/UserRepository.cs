@@ -18,6 +18,11 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
     }
+    public async Task<User?> GetByEmailAndPasswordAsync(string email, string password)
+    {
+        return await _context.Users
+            .FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == password);
+    }
 
     public async Task AddAsync(User user)
     {
