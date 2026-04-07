@@ -4,20 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheBigSkillChallenge.Application.DTOs;
 using TheBigSkillChallenge.Application.Interfaces;
 
 namespace TheBigSkillChallenge.Application.Commands.Auth
 {
-    public class VerifyOtpCommandHandler : IRequestHandler<VerifyOtpCommand, string>
+    public class VerifyOtpCommandHandler : IRequestHandler<VerifyOtpCommand, AuthResponseDto>
     {
         private readonly IUserRepository _userRepository;
+        private readonly ITokenProvider _tokenProvider;
 
-        public VerifyOtpCommandHandler(IUserRepository userRepository)
+        public VerifyOtpCommandHandler(IUserRepository userRepository, ITokenProvider tokenProvider)
         {
             _userRepository = userRepository;
+            _tokenProvider = tokenProvider;
         }
 
-        public async Task<string> Handle(VerifyOtpCommand request, CancellationToken cancellationToken)
+        public async Task<AuthResponseDto> Handle(VerifyOtpCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByEmailAsync(request.Email);
 
@@ -35,7 +38,9 @@ namespace TheBigSkillChallenge.Application.Commands.Auth
 
             await _userRepository.UpdateAsync(user);
 
-            return "Email verified successfully";
+            var token = _tokenProvider.GenerateToken(user);
+
+            return new AuthResponseDto(user.Id, token, "Email verified successfully");
         }
     }
 }

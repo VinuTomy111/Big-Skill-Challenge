@@ -52,11 +52,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
 
         await _userRepository.AddAsync(user);
 
-        // Ideally generate OTP here and send email
-        var token = _tokenProvider.GenerateToken(user);
-
         await _emailService.SendOtpEmail(user.Email, otp);
 
-        return new AuthResponseDto(user.Id, "", "Registration successful. OTP sent to email.");
+        return new AuthResponseDto(user.Id, null, "Registration successful. Please verify OTP.");
     }
 }

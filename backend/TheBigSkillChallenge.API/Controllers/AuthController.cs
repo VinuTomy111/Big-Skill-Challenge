@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TheBigSkillChallenge.Application.Commands.Auth;
 
@@ -34,7 +35,7 @@ public class AuthController : ControllerBase
         try
         {
             var result = await _mediator.Send(command);
-            return Ok(new { Token = result });
+            return Ok(result);
         }
         catch (Exception ex)
         {
@@ -46,5 +47,11 @@ public class AuthController : ControllerBase
     {
         var result = await _mediator.Send(command);
         return Ok(result);
+    }
+    [Authorize]
+    [HttpGet("profile")]
+    public IActionResult GetProfile()
+    {
+        return Ok("User authenticated");
     }
 }
