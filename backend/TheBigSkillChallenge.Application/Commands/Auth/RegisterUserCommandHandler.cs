@@ -10,15 +10,17 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
     private readonly IUserRepository _userRepository;
     private readonly ITokenProvider _tokenProvider;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IEmailService _emailService;
 
     public RegisterUserCommandHandler(
         IUserRepository userRepository, 
         ITokenProvider tokenProvider,
-        IPasswordHasher passwordHasher)
+        IPasswordHasher passwordHasher, IEmailService emailService)
     {
         _userRepository = userRepository;
         _tokenProvider = tokenProvider;
         _passwordHasher = passwordHasher;
+        _emailService = emailService;
     }
 
     public async Task<AuthResponseDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -30,6 +32,11 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
             throw new Exception("User already exists with this email.");
         }
 
+        // Generate 4 digit OTP
+        var otp = new Random().Next(1000, 9999).ToString();
+
+        var expiryTime = DateTime.UtcNow.AddMinutes(5);
+
         var user = new User
         {
             FirstName = request.FirstName,
@@ -38,6 +45,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
             Phone = request.Phone,
             Country = request.Country,
             PasswordHash = _passwordHasher.Hash(request.Password),
+            OtpCode = otp,
+            OtpExpiry = expiryTime,
             IsEmailVerified = false // Needs OTP
         };
 
@@ -46,6 +55,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
         // Ideally generate OTP here and send email
         var token = _tokenProvider.GenerateToken(user);
 
-        return new AuthResponseDto(user.Id, token, "Registration successful. Please verify OTP.");
+        await _emailService.SendOtpEmail(user.Email, otp);
+
+        return new AuthResponseDto(user.Id, "", "Registration successful. OTP sent to email.");
     }
 }
