@@ -16,7 +16,7 @@ const CAROUSEL_DATA = [
     value: 'Value ~A$65,000',
     img: require('../../assets/bmw-x5.png'),
     badge: 'Current Prize',
-    badgeColor: ['#F59E0B', '#EA580C']
+    badgeColor: ['#059669', '#10B981']
   },
   {
     id: '1',
@@ -25,7 +25,7 @@ const CAROUSEL_DATA = [
     value: 'Value ~A$120,000',
     img: require('../../assets/caravan.png'),
     badge: 'Coming Soon',
-    badgeColor: ['rgba(124,58,237,0.85)', 'rgba(76,29,149,0.85)']
+    badgeColor: ['#0891B2', '#06B6D4']
   },
   {
     id: '2',
@@ -34,7 +34,7 @@ const CAROUSEL_DATA = [
     value: 'Value ~A$1.2 Million',
     img: require('../../assets/boat.png'),
     badge: 'Coming Soon',
-    badgeColor: ['rgba(124,58,237,0.85)', 'rgba(76,29,149,0.85)']
+    badgeColor: ['#0891B2', '#06B6D4']
   }
 ];
 
@@ -73,7 +73,7 @@ export default function LandingScreen({ navigation }: any) {
 
   return (
     <LinearGradient
-      colors={['#08002E', '#12006E', '#1A0A7C']}
+      colors={['#0B1315', '#101B20', '#162829']}
       style={styles.container}
       locations={[0, 0.5, 1]}
     >
@@ -96,15 +96,16 @@ export default function LandingScreen({ navigation }: any) {
         >
           {/* BIG WIN Badge Map */}
           <View style={styles.badgeWrap}>
-            <Text style={styles.flameEmojiLeft}>🔥</Text>
+            <Text style={styles.flameEmojiLeft}>⚡</Text>
             <LinearGradient 
-              colors={['#F59E0B', '#D97706']} 
+              colors={['#10B981', '#059669']} 
               style={styles.badgeCircle}
+              start={{x: 0, y: 0}} end={{x: 1, y: 1}}
             >
               <Text style={styles.badgeBigText}>BIG</Text>
               <Text style={styles.badgeBigText}>WIN</Text>
             </LinearGradient>
-            <Text style={styles.flameEmojiRight}>🔥</Text>
+            <Text style={styles.flameEmojiRight}>⚡</Text>
           </View>
 
           <Text style={styles.heroTitle}>The Big Skill Challenge™</Text>
@@ -159,7 +160,7 @@ export default function LandingScreen({ navigation }: any) {
           <View style={styles.ctaWrap}>
             <TouchableOpacity style={{width: '100%'}}>
               <LinearGradient 
-                colors={['#F59E0B', '#EA580C']} 
+                colors={['#059669', '#10B981']} 
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={styles.btnCta}
               >
@@ -180,7 +181,7 @@ export default function LandingScreen({ navigation }: any) {
                 { n: '4', t: 'Independent Judging', d: '3 independent judges verify the AI shortlist and confirm the final winner.' }
               ].map((item, index) => (
                 <View key={item.n} style={[styles.hiwItem, index === 3 ? { borderBottomWidth: 0 } : null]}>
-                  <LinearGradient colors={['#7C3AED', '#4C1D95']} style={styles.hiwNum}>
+                  <LinearGradient colors={['#06B6D4', '#0891B2']} style={styles.hiwNum}>
                     <Text style={styles.hiwNumText}>{item.n}</Text>
                   </LinearGradient>
                   <View style={{ flex: 1 }}>
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.08)',
+    borderBottomColor: 'rgba(255,255,255,0.05)',
   },
   logoText: {
     color: '#fff',
@@ -264,10 +265,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   btnSignin: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderColor: 'rgba(255,255,255,0.1)',
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 8,
     paddingVertical: 7,
     paddingHorizontal: 14,
   },
@@ -291,30 +292,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 2,
-    shadowColor: '#EA580C',
+    shadowColor: '#10B981',
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 20,
-    elevation: 10,
+    shadowOpacity: 0.6,
+    shadowRadius: 25,
+    elevation: 8,
   },
   badgeBigText: {
     fontSize: 30,
     fontWeight: '900',
-    color: '#1A0A00',
+    color: '#022C22',
     lineHeight: 32,
     fontStyle: 'italic',
   },
   flameEmojiLeft: {
     fontSize: 34,
     position: 'absolute',
-    left: (width / 2) - 80,
+    left: (width / 2) - 86,
     top: 10,
     zIndex: 1,
   },
   flameEmojiRight: {
     fontSize: 34,
     position: 'absolute',
-    right: (width / 2) - 80,
+    right: (width / 2) - 86,
     top: 10,
     zIndex: 1,
   },
@@ -343,7 +344,7 @@ const styles = StyleSheet.create({
   prizeImgWrap: {
     width: '100%',
     height: 200,
-    borderRadius: 18,
+    borderRadius: 14,
     overflow: 'hidden',
     position: 'relative',
   },
@@ -376,16 +377,16 @@ const styles = StyleSheet.create({
   },
   prizeValue: {
     fontSize: 12,
-    color: '#F59E0B',
+    color: '#10B981',
     fontWeight: '700',
   },
   activeBadge: {
     position: 'absolute',
     top: 10,
     right: 10,
-    borderRadius: 99,
-    paddingVertical: 4,
-    paddingHorizontal: 12,
+    borderRadius: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
   },
   activeBadgeText: {
     color: '#fff',
@@ -404,11 +405,11 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255,255,255,0.15)',
   },
   cDotActive: {
     width: 20,
-    backgroundColor: '#F59E0B',
+    backgroundColor: '#10B981',
   },
   ctaWrap: {
     paddingHorizontal: 16,
@@ -417,13 +418,13 @@ const styles = StyleSheet.create({
   btnCta: {
     width: '100%',
     paddingVertical: 16,
-    borderRadius: 50,
+    borderRadius: 12,
     alignItems: 'center',
-    shadowColor: '#EA580C',
+    shadowColor: '#10B981',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.4,
     shadowRadius: 10,
-    elevation: 8,
+    elevation: 6,
   },
   btnCtaText: {
     color: '#fff',
@@ -447,10 +448,10 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   hiwCard: {
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+    borderColor: 'rgba(255,255,255,0.08)',
     borderWidth: 1,
-    borderRadius: 16,
+    borderRadius: 14,
     overflow: 'hidden',
   },
   hiwItem: {
@@ -460,12 +461,12 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 14,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.07)',
+    borderBottomColor: 'rgba(255,255,255,0.04)',
   },
   hiwNum: {
     width: 26,
     height: 26,
-    borderRadius: 13,
+    borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -486,10 +487,10 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   aiSection: {
-    backgroundColor: 'rgba(255,255,255,0.05)',
-    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+    borderColor: 'rgba(255,255,255,0.08)',
     borderWidth: 1,
-    borderRadius: 18,
+    borderRadius: 14,
     marginHorizontal: 16,
     marginBottom: 20,
     padding: 16,
@@ -511,10 +512,10 @@ const styles = StyleSheet.create({
   },
   fCard: {
     width: '48%',
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+    borderColor: 'rgba(255,255,255,0.08)',
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 8,
     alignItems: 'center',
@@ -537,8 +538,8 @@ const styles = StyleSheet.create({
     lineHeight: 14,
   },
   cdownCard: {
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+    borderColor: 'rgba(255,255,255,0.08)',
     borderWidth: 1,
     borderRadius: 14,
     padding: 14,
@@ -557,21 +558,21 @@ const styles = StyleSheet.create({
   },
   cdownBox: {
     flex: 1,
-    backgroundColor: 'rgba(124,58,237,0.25)',
-    borderColor: 'rgba(124,58,237,0.4)',
+    backgroundColor: 'rgba(6,182,212,0.1)',
+    borderColor: 'rgba(6,182,212,0.2)',
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 8,
     paddingVertical: 8,
     alignItems: 'center',
   },
   cdownN: {
     fontSize: 20,
     fontWeight: '900',
-    color: '#C4B5FD',
+    color: '#A5F3FC',
   },
   cdownL: {
     fontSize: 9,
-    color: 'rgba(196,181,253,0.6)',
+    color: 'rgba(165,243,252,0.6)',
     fontWeight: '600',
     textTransform: 'uppercase',
     letterSpacing: 1,
