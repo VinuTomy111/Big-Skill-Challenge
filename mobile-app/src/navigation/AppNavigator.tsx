@@ -6,6 +6,7 @@ import LandingScreen from '../screens/LandingScreen';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import VerifyOtpScreen from '../screens/VerifyOtpScreen';
+import EligibilityScreen from '../screens/EligibilityScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,11 @@ export default function AppNavigator() {
         <Stack.Screen 
           name="VerifyOtp" 
           component={VerifyOtpScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Eligibility" 
+          component={EligibilityScreen} 
           options={{ headerShown: false }} 
         />
         <Stack.Screen 

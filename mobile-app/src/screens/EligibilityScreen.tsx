@@ -14,7 +14,7 @@ const STEPPER_DATA = [
   { id: 4, title: '4', future: true },
 ];
 
-export default function HomeScreen({ navigation }: any) {
+export default function EligibilityScreen({ navigation }: any) {
   const [checkedItems, setCheckedItems] = useState([false, false, false]);
 
   const toggleItem = (index: number) => {
@@ -124,7 +124,7 @@ export default function HomeScreen({ navigation }: any) {
           {/* CTA Button */}
           <TouchableOpacity 
             style={[styles.ctaWrap, !allChecked && styles.ctaDisabled]} 
-            onPress={() => allChecked && console.log('Proceed to Payment')} // Placeholder for payment
+            onPress={() => allChecked && navigation.navigate('Home')}
             disabled={!allChecked}
           >
             <LinearGradient 
