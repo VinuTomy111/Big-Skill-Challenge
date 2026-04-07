@@ -2,3 +2,17 @@ node_modules/
 **/node_modules/
 .expo/
 **/.expo/
+
+# .NET
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Logs
+*.log

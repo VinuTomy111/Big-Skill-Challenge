@@ -41,4 +41,10 @@ public class AuthController : ControllerBase
             return Unauthorized(new { Message = ex.Message });
         }
     }
+    [HttpPost("verify-otp")]
+    public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
 }
