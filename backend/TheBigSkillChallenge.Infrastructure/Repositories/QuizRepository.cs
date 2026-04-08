@@ -37,6 +37,19 @@ public class QuizRepository : IQuizRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task MarkSessionAsTimeoutAsync(Guid sessionId)
+    {
+        var session = await _context.QuizSessions.FindAsync(sessionId);
+        if (session != null)
+        {
+            session.IsTimedOut = true;
+            session.CompletedAt = DateTime.UtcNow;
+            
+            _context.QuizSessions.Update(session);
+            await _context.SaveChangesAsync();
+        }
+    }
+
     public async Task AddAnswerAsync(QuizAnswer answer)
     {
         await _context.QuizAnswers.AddAsync(answer);
