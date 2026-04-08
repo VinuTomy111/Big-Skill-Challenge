@@ -48,6 +48,19 @@ public class AuthController : ControllerBase
         var result = await _mediator.Send(command);
         return Ok(result);
     }
+    [HttpPost("retry-otp")]
+    public async Task<IActionResult> RetryOtp([FromBody] RetryOtpCommand command)
+    {
+        try
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
+    }
     [Authorize]
     [HttpGet("profile")]
     public IActionResult GetProfile()
