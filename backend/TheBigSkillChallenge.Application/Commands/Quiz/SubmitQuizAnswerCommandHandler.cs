@@ -24,7 +24,7 @@ public class SubmitQuizAnswerCommandHandler : IRequestHandler<SubmitQuizAnswerCo
         }
 
         // 1. Timeout Checking (5 Minutes)
-        if (DateTime.UtcNow > session.StartedAt.AddMinutes(5))
+        if (DateTime.UtcNow > session.StartedAt.AddSeconds(30))
         {
             session.IsTimedOut = true;
             session.CompletedAt = DateTime.UtcNow;
@@ -52,7 +52,7 @@ public class SubmitQuizAnswerCommandHandler : IRequestHandler<SubmitQuizAnswerCo
         await _quizRepository.AddAnswerAsync(answer);
 
         // 4. Check if Quiz is Completed
-        var totalQuestions = await _quizRepository.GetTotalQuestionsForCompetitionAsync(session.CompetitionId);
+        var totalQuestions = 10;
         var answeredQuestions = await _quizRepository.GetAnsweredQuestionsCountAsync(session.Id);
 
         bool isCompleted = answeredQuestions >= totalQuestions;

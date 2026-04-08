@@ -8,6 +8,7 @@ public interface IQuizRepository
     Task<QuizSession?> GetSessionByIdAsync(Guid sessionId);
     Task AddSessionAsync(QuizSession session);
     Task UpdateSessionAsync(QuizSession session);
+    Task MarkSessionAsTimeoutAsync(Guid sessionId);
     
     Task AddAnswerAsync(QuizAnswer answer);
     
