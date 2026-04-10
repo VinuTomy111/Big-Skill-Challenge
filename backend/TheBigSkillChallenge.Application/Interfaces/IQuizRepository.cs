@@ -15,4 +15,5 @@ public interface IQuizRepository
     Task<QuizQuestion?> GetQuestionAsync(Guid questionId);
     Task<int> GetTotalQuestionsForCompetitionAsync(Guid competitionId);
     Task<int> GetAnsweredQuestionsCountAsync(Guid quizSessionId);
+    Task<int> GetSessionAttemptsCountAsync(Guid userId, Guid competitionId);
 }
