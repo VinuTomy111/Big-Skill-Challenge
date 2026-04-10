@@ -17,6 +17,7 @@ public class QuizRepository : IQuizRepository
     public async Task<QuizSession?> GetSessionAsync(Guid userId, Guid competitionId)
     {
         return await _context.QuizSessions
+            .Where(q => q.CompletedAt == null)
             .FirstOrDefaultAsync(q => q.UserId == userId && q.CompetitionId == competitionId);
     }
 
@@ -71,5 +72,11 @@ public class QuizRepository : IQuizRepository
     {
         return await _context.QuizAnswers
             .CountAsync(qa => qa.QuizSessionId == quizSessionId);
+    }
+
+    public async Task<int> GetSessionAttemptsCountAsync(Guid userId, Guid competitionId)
+    {
+        return await _context.QuizSessions
+            .CountAsync(q => q.UserId == userId && q.CompetitionId == competitionId);
     }
 }

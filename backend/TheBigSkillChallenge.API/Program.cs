@@ -8,6 +8,7 @@ using TheBigSkillChallenge.Infrastructure.Configuration;
 using TheBigSkillChallenge.Infrastructure.Data;
 using TheBigSkillChallenge.Infrastructure.Repositories;
 using TheBigSkillChallenge.Infrastructure.Security;
+using TheBigSkillChallenge.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,12 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
 builder.Services.AddScoped<ICompetitionQuestionsRepository, CompetitionQuestionsRepository>();
+builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 builder.Services.AddSingleton<ITokenProvider, TokenProvider>();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IAuditLogService, AuditLogService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings"));
 
