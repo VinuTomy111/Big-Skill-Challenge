@@ -1,6 +1,7 @@
 from fastapi import APIRouter
-from models.schemas import EntrySubmission, ValidationResult
+from models.schemas import EntrySubmission, ValidationResult, SentimentRequest, SentimentResponse
 from services.validator import validate_word_count, check_duplicate
+from services.groq_service import get_sentiment_score
 
 router = APIRouter()
 
@@ -23,3 +24,9 @@ async def validate_entry(submission: EntrySubmission):
         similarity_score=similarity,
         status_message=message
     )
+
+@router.post("/sentiment-score", response_model=SentimentResponse)
+async def sentiment_score(request: SentimentRequest):
+    score = await get_sentiment_score(request.text)
+    return SentimentResponse(score=score)
+
