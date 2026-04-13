@@ -45,6 +45,6 @@ public class StartQuizCommandHandler : IRequestHandler<StartQuizCommand, StartQu
 
         await _auditLogService.LogAsync("Quiz Session Started", "Quiz", $"Session {session.Id} started by user {request.UserId} for competition {request.CompetitionId}", request.UserId);
 
-        return new StartQuizResponseDto(session.Id, session.StartedAt, 5); // 5 minutes default timeout
+        return new StartQuizResponseDto(session.Id, session.StartedAt, 30); // 30 sec default timeout
     }
 }
