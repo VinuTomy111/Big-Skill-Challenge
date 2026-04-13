@@ -11,3 +11,9 @@ class ValidationResult(BaseModel):
     word_count: int
     similarity_score: float
     status_message: str
+
+class SentimentRequest(BaseModel):
+    text: str
+
+class SentimentResponse(BaseModel):
+    score: int

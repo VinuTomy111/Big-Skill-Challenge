@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
@@ -14,21 +14,19 @@ public class EmailService : IEmailService
         _emailSettings = emailSettings.Value;
     }
 
-    public async Task SendOtpEmail(string email, string otp)
+    public async Task SendEmailAsync(string email, string subject, string body)
     {
         using var smtpClient = new SmtpClient(_emailSettings.Host, _emailSettings.Port)
         {
-            Credentials = new NetworkCredential(
-                _emailSettings.Username,
-                _emailSettings.Password),
+            Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password),
             EnableSsl = true
         };
 
         var mail = new MailMessage
         {
             From = new MailAddress(_emailSettings.FromEmail),
-            Subject = "Your OTP Code",
-            Body = $"Your verification OTP is: {otp}",
+            Subject = subject,
+            Body = body,
             IsBodyHtml = false
         };
 

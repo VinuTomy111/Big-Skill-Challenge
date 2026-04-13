@@ -34,7 +34,7 @@ public class RetryOtpCommandHandler : IRequestHandler<RetryOtpCommand, AuthRespo
 
             await _userRepository.UpdateAsync(user);
 
-            await _emailService.SendOtpEmail(user.Email, otp);
+            await _emailService.SendEmailAsync(user.Email, "Your OTP Code", $"Your verification OTP is: {otp}");
 
             await _auditLogService.LogAsync("Retry OTP Success", "Auth", $"OTP resent for user: {user.Id}", user.Id);
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,6 @@ namespace TheBigSkillChallenge.Application.Interfaces
 {
     public interface IEmailService
     {
-        Task SendOtpEmail(string email, string otp);
+        Task SendEmailAsync(string email, string subject, string body);
     }
 }

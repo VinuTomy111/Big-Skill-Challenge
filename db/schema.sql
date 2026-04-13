@@ -89,3 +89,28 @@ CREATE TABLE AuditLogs (
     Details NVARCHAR(MAX),
     Timestamp DATETIME2 DEFAULT SYSUTCDATETIME()
 );
+
+CREATE TABLE SentimentAnalysis
+(
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+
+    UserId UNIQUEIDENTIFIER NOT NULL,
+    QuizSessionId UNIQUEIDENTIFIER NOT NULL,
+
+    SubmissionText NVARCHAR(MAX) NOT NULL,
+    WordCount INT NOT NULL,
+
+    SentimentScore FLOAT NOT NULL,
+    ScoreCategory NVARCHAR(50) NOT NULL,
+
+    ReferenceNumber UNIQUEIDENTIFIER NOT NULL DEFAULT NEWSEQUENTIALID(),
+
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+
+    -- Foreign Keys
+    CONSTRAINT FK_SentimentAnalysis_User 
+        FOREIGN KEY (UserId) REFERENCES Users(Id),
+
+    CONSTRAINT FK_SentimentAnalysis_QuizSession 
+        FOREIGN KEY (QuizSessionId) REFERENCES QuizSessions(Id)
+);

@@ -1,7 +1,8 @@
 using MediatR;
 using TheBigSkillChallenge.Application.DTOs;
-using TheBigSkillChallenge.Domain.Entities;
 using TheBigSkillChallenge.Application.Interfaces;
+using TheBigSkillChallenge.Domain.Entities;
+using static System.Net.WebRequestMethods;
 
 namespace TheBigSkillChallenge.Application.Commands.Auth;
 
@@ -58,7 +59,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
 
             await _userRepository.AddAsync(user);
 
-            await _emailService.SendOtpEmail(user.Email, otp);
+            await _emailService.SendEmailAsync(user.Email, "Your OTP Code", $"Your verification OTP is: {otp}");
 
             await _auditLogService.LogAsync("User Registration", "Auth", $"Registered successfully: {user.Id}", user.Id);
 

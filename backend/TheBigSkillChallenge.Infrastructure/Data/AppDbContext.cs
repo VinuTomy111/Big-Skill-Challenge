@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     public DbSet<QuizSession> QuizSessions => Set<QuizSession>();
     public DbSet<QuizAnswer> QuizAnswers => Set<QuizAnswer>();
+    public DbSet<SentimentAnalysis> SentimentAnalysis => Set<SentimentAnalysis>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

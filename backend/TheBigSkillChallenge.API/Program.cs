@@ -22,6 +22,11 @@ builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
 builder.Services.AddScoped<ICompetitionQuestionsRepository, CompetitionQuestionsRepository>();
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
+builder.Services.AddScoped<ISentimentAnalysisRepository, SentimentAnalysisRepository>();
+builder.Services.AddHttpClient<IAiSentimentService, AiSentimentService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["AiService:BaseUrl"] ?? "http://localhost:8000");
+});
 builder.Services.AddSingleton<ITokenProvider, TokenProvider>();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IEmailService, EmailService>();
