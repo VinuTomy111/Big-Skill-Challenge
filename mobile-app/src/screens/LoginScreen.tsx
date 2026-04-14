@@ -5,6 +5,7 @@ import {
   StatusBar, ActivityIndicator, Alert
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient from '../api/client';
 
 export default function LoginScreen({ navigation }: any) {
@@ -62,6 +63,14 @@ export default function LoginScreen({ navigation }: any) {
         email, 
         password 
       });
+
+      // Save token to AsyncStorage
+      if (response && response.token) {
+        await AsyncStorage.setItem('auth_token', response.token);
+        if (response.userId) {
+          await AsyncStorage.setItem('user_id', response.userId);
+        }
+      }
 
       // Navigate to Home on success
       navigation.navigate('Home');

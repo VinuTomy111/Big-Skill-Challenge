@@ -7,12 +7,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const { width } = Dimensions.get('window');
 
-const STEPPER_DATA = [
-  { id: 1, title: 'Check', completed: true },
-  { id: 2, title: 'Check', completed: true },
-  { id: 3, title: 'Eligibility', active: true },
-  { id: 4, title: '4', future: true },
-];
+
+
 
 export default function EligibilityScreen({ navigation }: any) {
   const [checkedItems, setCheckedItems] = useState([false, false, false]);
@@ -34,52 +30,9 @@ export default function EligibilityScreen({ navigation }: any) {
     >
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
-        {/* Custom Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-            <View style={styles.backCircle}>
-              <Text style={styles.backArrow}>←</Text>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.headerTitleWrap}>
-            <Text style={styles.poweredBy}>Powered by</Text>
-            <Text style={styles.lucidEngine}>Lucid Engine AI</Text>
-          </View>
-          <View style={{ width: 44 }} />
-        </View>
 
-        {/* Stepper Indicator */}
-        <View style={styles.stepperWrap}>
-          {STEPPER_DATA.map((step, idx) => (
-            <React.Fragment key={step.id}>
-              <View style={styles.stepContainer}>
-                <View style={[
-                  styles.stepCircle,
-                  step.completed && styles.stepCompleted,
-                  step.active && styles.stepActive,
-                  step.future && styles.stepFuture
-                ]}>
-                  {step.completed ? (
-                    <Text style={styles.stepCheck}>✓</Text>
-                  ) : (
-                    <Text style={[
-                      styles.stepText,
-                      step.active && styles.stepActiveText,
-                      step.future && styles.stepFutureText
-                    ]}>{step.id}</Text>
-                  )}
-                </View>
-                {step.active && <Text style={styles.stepLabel}>{step.title}</Text>}
-              </View>
-              {idx < STEPPER_DATA.length - 1 && (
-                <View style={[
-                  styles.stepLine,
-                  step.completed ? styles.lineCompleted : styles.lineFuture
-                ]} />
-              )}
-            </React.Fragment>
-          ))}
-        </View>
+
+
 
         <ScrollView 
           contentContainerStyle={styles.scrollContent}
@@ -165,115 +118,6 @@ export default function EligibilityScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  backCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: 'rgba(255,255,255,0.1)',
-    borderWidth: 1,
-  },
-  backBtn: {
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-  },
-  backArrow: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  headerTitleWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  poweredBy: {
-    fontSize: 10,
-    color: 'rgba(255,255,255,0.4)',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  lucidEngine: {
-    fontSize: 12,
-    fontWeight: '900',
-    color: '#fff',
-    fontStyle: 'italic',
-  },
-  // Stepper Styles
-  stepperWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 20,
-    paddingHorizontal: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.05)',
-  },
-  stepContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepCircle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  stepCompleted: {
-    backgroundColor: '#10B981',
-  },
-  stepActive: {
-    backgroundColor: '#F59E0B',
-  },
-  stepFuture: {
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderColor: 'rgba(255,255,255,0.1)',
-    borderWidth: 1,
-  },
-  stepCheck: {
-    color: '#022C22',
-    fontSize: 14,
-    fontWeight: '900',
-  },
-  stepText: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  stepActiveText: {
-    color: '#000',
-  },
-  stepFutureText: {
-    color: 'rgba(255,255,255,0.3)',
-  },
-  stepLabel: {
-    color: '#F59E0B',
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  stepLine: {
-    flex: 1,
-    height: 1,
-    marginHorizontal: 8,
-    maxWidth: 50,
-  },
-  lineCompleted: {
-    backgroundColor: 'rgba(16, 185, 129, 0.4)',
-  },
-  lineFuture: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
   },
   scrollContent: {
     padding: 24,
