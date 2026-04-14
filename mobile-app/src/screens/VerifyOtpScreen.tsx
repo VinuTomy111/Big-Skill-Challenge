@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  View, Text, StyleSheet, TouchableOpacity, SafeAreaView, 
+import {
+  View, Text, StyleSheet, TouchableOpacity, SafeAreaView,
   TextInput, KeyboardAvoidingView, Platform, ScrollView,
   StatusBar, Dimensions, ActivityIndicator
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient from '../api/client';
 
 const { width } = Dimensions.get('window');
@@ -30,11 +31,17 @@ export default function VerifyOtpScreen({ navigation, route }: any) {
     setIsLoading(true);
     try {
       // Call the verify-otp API
-      await apiClient.post('/api/v1/Auth/verify-otp', { 
-        email: userEmail, 
-        otp: fullOtp 
+      const response = await apiClient.post('/api/v1/Auth/verify-otp', {
+        email: userEmail,
+        otp: fullOtp
       });
-
+      // Save token to AsyncStorage
+      if (response && response.token) {
+        await AsyncStorage.setItem('auth_token', response.token);
+        if (response.userId) {
+          await AsyncStorage.setItem('user_id', response.userId);
+        }
+      }
       // Navigate to Home on success
       navigation.navigate('Home');
     } catch (err: any) {
@@ -52,7 +59,7 @@ export default function VerifyOtpScreen({ navigation, route }: any) {
     >
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{ flex: 1 }}
         >
@@ -64,10 +71,10 @@ export default function VerifyOtpScreen({ navigation, route }: any) {
               </View>
             </TouchableOpacity>
             <Text style={styles.logoText}>Big Skill Challenge™</Text>
-            <View style={{ width: 44 }} /> 
+            <View style={{ width: 44 }} />
           </View>
 
-          <ScrollView 
+          <ScrollView
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
           >
@@ -108,13 +115,13 @@ export default function VerifyOtpScreen({ navigation, route }: any) {
             </View>
 
             {/* CTA Button */}
-            <TouchableOpacity 
-              style={styles.ctaWrap} 
+            <TouchableOpacity
+              style={styles.ctaWrap}
               onPress={handleVerifyOtp}
               disabled={isLoading}
             >
-              <LinearGradient 
-                colors={['#059669', '#10B981']} 
+              <LinearGradient
+                colors={['#059669', '#10B981']}
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={styles.btnCta}
               >
@@ -138,7 +145,7 @@ export default function VerifyOtpScreen({ navigation, route }: any) {
               <View style={styles.infoRow}>
                 <Text style={styles.infoIcon}>📩</Text>
                 <Text style={styles.infoText}>
-                  <Text style={{fontWeight: '700', color: '#10B981'}}>Check your spam folder</Text> if you don't see the email within 2 minutes. The code is valid for 10 minutes.
+                  <Text style={{ fontWeight: '700', color: '#10B981' }}>Check your spam folder</Text> if you don't see the email within 2 minutes. The code is valid for 10 minutes.
                 </Text>
               </View>
             </View>

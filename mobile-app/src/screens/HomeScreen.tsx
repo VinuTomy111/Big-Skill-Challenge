@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { 
-  View, Text, StyleSheet, TouchableOpacity, SafeAreaView, 
+import {
+  View, Text, StyleSheet, TouchableOpacity, SafeAreaView,
   ScrollView, StatusBar, Dimensions
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -41,47 +41,12 @@ export default function HomeScreen({ navigation }: any) {
               <Text style={styles.backArrow}>←</Text>
             </View>
           </TouchableOpacity>
-          <View style={styles.headerTitleWrap}>
-            <Text style={styles.poweredBy}>Powered by</Text>
-            <Text style={styles.lucidEngine}>Lucid Engine AI</Text>
-          </View>
-          <View style={{ width: 44 }} />
+
         </View>
 
-        {/* Stepper Indicator */}
-        <View style={styles.stepperWrap}>
-          {STEPPER_DATA.map((step, idx) => (
-            <React.Fragment key={step.id}>
-              <View style={styles.stepContainer}>
-                <View style={[
-                  styles.stepCircle,
-                  step.completed && styles.stepCompleted,
-                  step.active && styles.stepActive,
-                  step.future && styles.stepFuture
-                ]}>
-                  {step.completed ? (
-                    <Text style={styles.stepCheck}>✓</Text>
-                  ) : (
-                    <Text style={[
-                      styles.stepText,
-                      step.active && styles.stepActiveText,
-                      step.future && styles.stepFutureText
-                    ]}>{step.id}</Text>
-                  )}
-                </View>
-                {step.active && <Text style={styles.stepLabel}>{step.title}</Text>}
-              </View>
-              {idx < STEPPER_DATA.length - 1 && (
-                <View style={[
-                  styles.stepLine,
-                  step.completed ? styles.lineCompleted : styles.lineFuture
-                ]} />
-              )}
-            </React.Fragment>
-          ))}
-        </View>
 
-        <ScrollView 
+
+        <ScrollView
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
@@ -97,7 +62,7 @@ export default function HomeScreen({ navigation }: any) {
               "I understand a maximum of 10 entries is permitted per competition.",
               "I acknowledge that this is a competition of skill, not chance."
             ].map((text, idx) => (
-              <TouchableOpacity 
+              <TouchableOpacity
                 key={idx}
                 style={[styles.eligibilityCard, checkedItems[idx] && styles.cardActive]}
                 activeOpacity={0.7}
@@ -122,18 +87,18 @@ export default function HomeScreen({ navigation }: any) {
           </View>
 
           {/* CTA Button */}
-          <TouchableOpacity 
-            style={[styles.ctaWrap, !allChecked && styles.ctaDisabled]} 
-            onPress={() => allChecked && console.log('Proceed to Payment')} // Placeholder for payment
+          <TouchableOpacity
+            style={[styles.ctaWrap, !allChecked && styles.ctaDisabled]}
+            onPress={() => allChecked && navigation.navigate('CompetitionList')}
             disabled={!allChecked}
           >
-            <LinearGradient 
-              colors={allChecked ? ['#059669', '#10B981'] : ['#1E293B', '#334155']} 
+            <LinearGradient
+              colors={allChecked ? ['#059669', '#10B981'] : ['#1E293B', '#334155']}
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
               style={styles.btnCta}
             >
               <Text style={[styles.btnCtaText, !allChecked && styles.textDisabled]}>
-                Continue to Payment →
+                Continue to Competition List →
               </Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -145,7 +110,7 @@ export default function HomeScreen({ navigation }: any) {
                 <Text style={styles.infoIcon}>i</Text>
               </View>
               <Text style={styles.importantText}>
-                <Text style={{fontWeight: '900', color: '#fff'}}>Important: </Text>
+                <Text style={{ fontWeight: '900', color: '#fff' }}>Important: </Text>
                 Payment is processed into a designated competition trust account. Entries are recorded upon successful quiz completion and creative submission.
               </Text>
             </View>
