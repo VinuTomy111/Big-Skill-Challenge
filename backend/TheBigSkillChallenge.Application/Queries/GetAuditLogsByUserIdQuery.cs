@@ -5,7 +5,8 @@ using TheBigSkillChallenge.Application.DTOs;
 
 namespace TheBigSkillChallenge.Application.Queries
 {
-    public class GetAuditLogsQuery : IRequest<IEnumerable<AuditLogDto>>
+    public class GetAuditLogsByUserIdQuery : IRequest<IEnumerable<AuditLogDto>>
     {
+        public Guid UserId { get; set; }
     }
 }

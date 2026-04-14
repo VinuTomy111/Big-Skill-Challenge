@@ -18,7 +18,7 @@ namespace TheBigSkillChallenge.Application.Queries
 
         public async Task<IEnumerable<AuditLogDto>> Handle(GetAuditLogsQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetAuditLogsAsync();
+            return await _repository.GetAllAuditLogsAsync();
         }
     }
 }
