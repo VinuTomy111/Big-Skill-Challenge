@@ -17,7 +17,7 @@ public class QuizRepository : IQuizRepository
     public async Task<QuizSession?> GetSessionAsync(Guid userId, Guid competitionId)
     {
         return await _context.QuizSessions
-            .Where(q => q.CompletedAt == null)
+            .Where(q => q.CompletedAt == null && q.IsTimedOut == false && q.IsSuccessful == false)
             .FirstOrDefaultAsync(q => q.UserId == userId && q.CompetitionId == competitionId);
     }
 
