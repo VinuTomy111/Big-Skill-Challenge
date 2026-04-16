@@ -10,5 +10,5 @@ public record StartQuizCommand(
 public record StartQuizResponseDto(
     Guid QuizSessionId,
     DateTime StartedAt,
-    int TimeoutMinutes
+    int TimeoutSeconds
 );
