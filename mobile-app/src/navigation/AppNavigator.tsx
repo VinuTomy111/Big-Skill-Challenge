@@ -9,6 +9,8 @@ import VerifyOtpScreen from '../screens/VerifyOtpScreen';
 import EligibilityScreen from '../screens/EligibilityScreen';
 import CompetitionListScreen from '../screens/CompetitionListScreen';
 import QuizScreen from '../screens/QuizScreen';
+import CreativeSubmissionScreen from '../screens/CreativeSubmissionScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +54,12 @@ export default function AppNavigator() {
           component={QuizScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="CreativeSubmission"
+          component={CreativeSubmissionScreen}
+          options={{ headerShown: false }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
