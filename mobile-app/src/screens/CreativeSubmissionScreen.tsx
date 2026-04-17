@@ -10,6 +10,7 @@ import {
   Platform,
   Alert,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
@@ -100,76 +101,83 @@ export default function CreativeSubmissionScreen({ route, navigation }: any) {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.flex}
       >
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.title}>Creative Submission</Text>
-            <Text style={styles.subtitle}>Exactly 25 words required</Text>
-          </View>
-          <BlurView intensity={30} tint="dark" style={styles.timerBadge}>
-            <Ionicons name="timer-outline" size={20} color="#38bdf8" />
-            <Text style={styles.timerText}>{formatTime(timeLeft)}</Text>
-          </BlurView>
-        </View>
-
-        <View style={styles.progressContainer}>
-          <View style={[styles.progressBar, { width: `${progress}%` }]} />
-        </View>
-
-        <View style={styles.content}>
-          <BlurView intensity={20} tint="light" style={styles.promptCard}>
-            <Text style={styles.promptLabel}>YOUR PROMPT</Text>
-            <Text style={styles.promptText}>
-              "In exactly 25 words, tell us why you should win this prize."
-            </Text>
-          </BlurView>
-
-          <View style={styles.responseHeader}>
-            <Text style={styles.responseLabel}>Your Response</Text>
-            <Text style={[styles.wordCount, isValid && styles.correctCount]}>
-              {wordCount} / 25
-            </Text>
-          </View>
-
-          <BlurView intensity={15} tint="light" style={styles.inputCard}>
-            <TextInput
-              style={styles.input}
-              placeholder="Type your 25-word response here..."
-              placeholderTextColor="#94a3b8"
-              multiline
-              value={text}
-              onChangeText={setText}
-              contextMenuHidden={true} // Disables paste menu on some platforms
-              selectTextOnFocus={false}
-              caretHidden={false}
-            />
-          </BlurView>
-
-          <Text style={styles.hint}>Begin typing your response above.</Text>
-
-          <TouchableOpacity
-            style={[styles.submitButton, !isValid && styles.disabledButton]}
-            onPress={handleSubmit}
-            disabled={!isValid || isSubmitting}
-          >
-            {isSubmitting ? (
-              <ActivityIndicator color="white" />
-            ) : (
-              <View style={styles.buttonContent}>
-                <Text style={styles.submitButtonText}>Submit Entry</Text>
-                <Ionicons name="arrow-forward" size={20} color="white" style={styles.buttonIcon} />
-              </View>
-            )}
-          </TouchableOpacity>
-
-          <BlurView intensity={20} tint="dark" style={styles.warningCard}>
-            <View style={styles.warningIconContainer}>
-              <Ionicons name="remove-circle" size={20} color="#ef4444" />
+        <ScrollView 
+          style={styles.flex} 
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.title}>Creative Submission</Text>
+              <Text style={styles.subtitle}>Exactly 25 words required</Text>
             </View>
-            <Text style={styles.warningText}>
-              Paste is disabled. Please type your response. Submission blocked unless word count is exactly 25.
-            </Text>
-          </BlurView>
-        </View>
+            <BlurView intensity={30} tint="dark" style={styles.timerBadge}>
+              <Ionicons name="timer-outline" size={20} color="#38bdf8" />
+              <Text style={styles.timerText}>{formatTime(timeLeft)}</Text>
+            </BlurView>
+          </View>
+
+          <View style={styles.progressContainer}>
+            <View style={[styles.progressBar, { width: `${progress}%` }]} />
+          </View>
+
+          <View style={styles.content}>
+            <BlurView intensity={20} tint="light" style={styles.promptCard}>
+              <Text style={styles.promptLabel}>YOUR PROMPT</Text>
+              <Text style={styles.promptText}>
+                "In exactly 25 words, tell us why you should win this prize."
+              </Text>
+            </BlurView>
+
+            <View style={styles.responseHeader}>
+              <Text style={styles.responseLabel}>Your Response</Text>
+              <Text style={[styles.wordCount, isValid && styles.correctCount]}>
+                {wordCount} / 25
+              </Text>
+            </View>
+
+            <BlurView intensity={15} tint="light" style={styles.inputCard}>
+              <TextInput
+                style={styles.input}
+                placeholder="Type your 25-word response here..."
+                placeholderTextColor="#94a3b8"
+                multiline
+                value={text}
+                onChangeText={setText}
+                contextMenuHidden={true}
+                selectTextOnFocus={false}
+                caretHidden={false}
+              />
+            </BlurView>
+
+            <Text style={styles.hint}>Begin typing your response above.</Text>
+
+            <TouchableOpacity
+              style={[styles.submitButton, !isValid && styles.disabledButton]}
+              onPress={handleSubmit}
+              disabled={!isValid || isSubmitting}
+            >
+              {isSubmitting ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <View style={styles.buttonContent}>
+                  <Text style={styles.submitButtonText}>Submit Entry</Text>
+                  <Ionicons name="arrow-forward" size={20} color="white" style={styles.buttonIcon} />
+                </View>
+              )}
+            </TouchableOpacity>
+
+            <BlurView intensity={20} tint="dark" style={styles.warningCard}>
+              <View style={styles.warningIconContainer}>
+                <Ionicons name="remove-circle" size={20} color="#ef4444" />
+              </View>
+              <Text style={styles.warningText}>
+                Paste is disabled. Please type your response. Submission blocked unless word count is exactly 25.
+              </Text>
+            </BlurView>
+          </View>
+        </ScrollView>
+
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -182,6 +190,10 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
+  scrollContent: {
+    flexGrow: 1,
+  },
+
   header: {
     padding: 24,
     flexDirection: 'row',

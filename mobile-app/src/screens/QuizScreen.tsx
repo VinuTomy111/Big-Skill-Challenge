@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { CommonActions } from '@react-navigation/native';
+
 import {
   View, Text, StyleSheet, TouchableOpacity, SafeAreaView,
   StatusBar, ActivityIndicator, Alert, Dimensions, ScrollView, Animated
@@ -156,12 +158,23 @@ export default function QuizScreen({ navigation, route }: any) {
   };
 
   const handleLogout = async () => {
-    await AsyncStorage.multiRemove(['auth_token', 'user_id']);
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Login' }],
-    });
+    try {
+      console.log('Logging out...');
+      await AsyncStorage.multiRemove(['auth_token', 'user_id']);
+      
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Login' }],
+        })
+      );
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Fallback to simple navigate if reset fails
+      navigation.navigate('Login');
+    }
   };
+
 
   if (isLoading) {
     return (
@@ -201,9 +214,10 @@ export default function QuizScreen({ navigation, route }: any) {
                 <Text style={styles.btnTextThin}>Return to Competition Home</Text>
               </LinearGradient>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.secondaryBtn} onPress={handleLogout}>
+            <TouchableOpacity style={[styles.secondaryBtn, { marginTop: 16 }]} onPress={handleLogout}>
               <Text style={styles.logoutTextRed}>Log Out</Text>
             </TouchableOpacity>
+
           </View>
         </SafeAreaView>
       </LinearGradient>
@@ -240,9 +254,10 @@ export default function QuizScreen({ navigation, route }: any) {
                 <Text style={styles.btnTextThin}>Return to Competition Home</Text>
               </LinearGradient>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.secondaryBtn} onPress={handleLogout}>
+            <TouchableOpacity style={[styles.secondaryBtn, { marginTop: 16 }]} onPress={handleLogout}>
               <Text style={styles.logoutTextRed}>Log Out</Text>
             </TouchableOpacity>
+
           </View>
         </SafeAreaView>
       </LinearGradient>
@@ -261,14 +276,14 @@ export default function QuizScreen({ navigation, route }: any) {
           
           <TouchableOpacity 
             style={styles.finishBtnBase}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('CreativeSubmission', { quizSessionId })}
           >
             <LinearGradient
               colors={['#059669', '#10B981']}
               style={styles.finishBtn}
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
             >
-              <Text style={styles.finishBtnText}>Finish Challenge</Text>
+              <Text style={styles.finishBtnText}>Continue to Creative Submission</Text>
             </LinearGradient>
           </TouchableOpacity>
         </SafeAreaView>
@@ -405,7 +420,8 @@ const styles = StyleSheet.create({
   resultBoldText: { fontSize: 18, fontWeight: '900', color: '#fff', textAlign: 'center' },
   infoGlassBox: { padding: 24, backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: 24, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', marginBottom: 40 },
   infoTextSmall: { fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 20, textAlign: 'center' },
-  resultActions: { width: '100%', gap: 16 },
+  resultActions: { width: '100%' },
+
   primaryBtn: { width: '100%' },
   btnGradient: { paddingVertical: 18, borderRadius: 16, alignItems: 'center' },
   btnTextThin: { color: '#fff', fontSize: 16, fontWeight: '900' },
