@@ -28,7 +28,7 @@ public class SubmitQuizAnswerCommandHandler : IRequestHandler<SubmitQuizAnswerCo
             }
 
             // 1. Timeout Checking (5 Minutes)
-            if (DateTime.UtcNow > session.StartedAt.AddSeconds(30))
+            if (DateTime.UtcNow > session.StartedAt.AddMinutes(5))
             {
                 session.IsTimedOut = true;
                 session.CompletedAt = DateTime.UtcNow;
