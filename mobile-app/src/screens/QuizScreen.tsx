@@ -35,7 +35,7 @@ export default function QuizScreen({ navigation, route }: any) {
   const [isTimedOut, setIsTimedOut] = useState(false);
   const [isIncorrect, setIsIncorrect] = useState(false);
   const [resultMessage, setResultMessage] = useState('');
-  
+
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function QuizScreen({ navigation, route }: any) {
   const initQuiz = async () => {
     try {
       setIsLoading(true);
-      
+
       const userId = await AsyncStorage.getItem('user_id');
       if (!userId) {
         Alert.alert('Error', 'User session not found.');
@@ -67,9 +67,9 @@ export default function QuizScreen({ navigation, route }: any) {
         userId: userId,
         competitionId: competitionId
       });
-      
+
       setQuizSessionId(sessionData.quizSessionId);
-      
+
     } catch (err: any) {
       Alert.alert('Error', err.message || 'Quiz initialization failed.');
       navigation.goBack();
@@ -124,7 +124,7 @@ export default function QuizScreen({ navigation, route }: any) {
 
   const handleNext = async () => {
     if (isSubmitting || !quizSessionId) return;
-    
+
     const currentQuestion = questions[currentQuestionIndex];
     const answer = selectedAnswers[currentQuestion.questionId] || "";
 
@@ -161,7 +161,7 @@ export default function QuizScreen({ navigation, route }: any) {
     try {
       console.log('Logging out...');
       await AsyncStorage.multiRemove(['auth_token', 'user_id']);
-      
+
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -202,8 +202,8 @@ export default function QuizScreen({ navigation, route }: any) {
 
           <View style={styles.infoGlassBox}>
             <Text style={styles.infoTextSmall}>
-              An email notification will be sent confirming this incomplete attempt. 
-              You may purchase another entry (max 10 per competition) to try again. 
+              An email notification will be sent confirming this incomplete attempt.
+              You may purchase another entry (max 10 per competition) to try again.
               Log out and log back in to begin a new attempt.
             </Text>
           </View>
@@ -242,8 +242,8 @@ export default function QuizScreen({ navigation, route }: any) {
 
           <View style={styles.infoGlassBox}>
             <Text style={styles.infoTextSmall}>
-              An email notification will be sent confirming this incomplete attempt. 
-              You may purchase another entry (max 10 per competition) to try again. 
+              An email notification will be sent confirming this incomplete attempt.
+              You may purchase another entry (max 10 per competition) to try again.
               Log out and log back in to begin a new attempt.
             </Text>
           </View>
@@ -273,8 +273,8 @@ export default function QuizScreen({ navigation, route }: any) {
             <Text style={styles.checkIconLarge}>✅</Text>
           </View>
           <Text style={styles.resultSub}>{resultMessage}</Text>
-          
-          <TouchableOpacity 
+
+          <TouchableOpacity
             style={styles.finishBtnBase}
             onPress={() => navigation.navigate('CreativeSubmission', { quizSessionId })}
           >
@@ -358,7 +358,7 @@ export default function QuizScreen({ navigation, route }: any) {
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
             >
               {isSubmitting ? (
-                 <ActivityIndicator color="#fff" />
+                <ActivityIndicator color="#fff" />
               ) : (
                 <Text style={styles.nextBtnText}>
                   {currentQuestionIndex === questions.length - 1 ? 'Finish Challenge' : 'Next Question →'}
