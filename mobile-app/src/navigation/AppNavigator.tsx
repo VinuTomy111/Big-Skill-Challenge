@@ -10,6 +10,8 @@ import EligibilityScreen from '../screens/EligibilityScreen';
 import CompetitionListScreen from '../screens/CompetitionListScreen';
 import QuizScreen from '../screens/QuizScreen';
 import CreativeSubmissionScreen from '../screens/CreativeSubmissionScreen';
+import SubmissionResultScreen from '../screens/SubmissionResultScreen';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -59,6 +61,12 @@ export default function AppNavigator() {
           component={CreativeSubmissionScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="SubmissionResult"
+          component={SubmissionResultScreen}
+          options={{ headerShown: false }}
+        />
+
 
       </Stack.Navigator>
     </NavigationContainer>

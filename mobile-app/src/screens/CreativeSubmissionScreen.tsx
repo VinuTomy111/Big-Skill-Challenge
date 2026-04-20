@@ -63,7 +63,7 @@ export default function CreativeSubmissionScreen({ route, navigation }: any) {
     setIsSubmitting(true);
     try {
       const token = await AsyncStorage.getItem('auth_token');
-      await axios.post(
+      const response = await axios.post(
         `${API_BASE_URL}/api/v1/submissions`,
         {
           quizSessionId,
@@ -74,9 +74,8 @@ export default function CreativeSubmissionScreen({ route, navigation }: any) {
         }
       );
 
-      Alert.alert('Success', 'Your response has been submitted successfully!', [
-        { text: 'Finish', onPress: () => navigation.navigate('Home') },
-      ]);
+      navigation.navigate('SubmissionResult', { result: response.data });
+
     } catch (error: any) {
       console.error('Submission error:', error);
       Alert.alert('Error', error.response?.data?.Message || 'Failed to submit your response.');
