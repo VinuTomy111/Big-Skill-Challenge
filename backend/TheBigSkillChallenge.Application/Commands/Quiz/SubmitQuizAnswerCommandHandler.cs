@@ -27,18 +27,18 @@ public class SubmitQuizAnswerCommandHandler : IRequestHandler<SubmitQuizAnswerCo
                 return new SubmitQuizAnswerResponseDto(false, "Quiz already completed or timed out.", true, session.IsSuccessful, session.IsTimedOut);
             }
 
-            // 1. Timeout Checking (5 Minutes)
-            if (DateTime.UtcNow > session.StartedAt.AddMinutes(5))
-            {
-                session.IsTimedOut = true;
-                session.CompletedAt = DateTime.UtcNow;
-                session.IsSuccessful = false;
-                await _quizRepository.UpdateSessionAsync(session);
+            //// 1. Timeout Checking (5 Minutes)
+            //if (DateTime.UtcNow > session.StartedAt.AddMinutes(5))
+            //{
+            //    session.IsTimedOut = true;
+            //    session.CompletedAt = DateTime.UtcNow;
+            //    session.IsSuccessful = false;
+            //    await _quizRepository.UpdateSessionAsync(session);
 
-                await _auditLogService.LogAsync("Wrong Answer / Session Failed", "Quiz", $"Session {session.Id} timed out and failed.", session.UserId);
+            //    await _auditLogService.LogAsync("Wrong Answer / Session Failed", "Quiz", $"Session {session.Id} timed out and failed.", session.UserId);
 
-                return new SubmitQuizAnswerResponseDto(false, "Time limit exceeded. Quiz failed.", true, false, true);
-            }
+            //    return new SubmitQuizAnswerResponseDto(false, "Time limit exceeded. Quiz failed.", true, false, true);
+            //}
 
             // 2. Validate Question
             var question = await _quizRepository.GetQuestionAsync(request.QuizQuestionId);
