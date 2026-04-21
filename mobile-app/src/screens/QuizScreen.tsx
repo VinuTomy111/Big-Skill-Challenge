@@ -8,6 +8,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient from '../api/client';
+import LogoutButton from '../components/LogoutButton';
 
 const { width } = Dimensions.get('window');
 
@@ -304,11 +305,14 @@ export default function QuizScreen({ navigation, route }: any) {
             <Text style={styles.headerStep}>Question {currentQuestionIndex + 1} of {questions.length}</Text>
           </View>
 
-          <View style={[styles.timerBadge, timer <= 5 && styles.timerBadgeAlert]}>
-            <Text style={styles.timerIcon}>⏱️</Text>
-            <Text style={[styles.timerValue, timer <= 5 && { color: '#FEE2E2' }]}>
-              {timer} <Text style={styles.secLabel}>sec</Text>
-            </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={[styles.timerBadge, timer <= 5 && styles.timerBadgeAlert]}>
+              <Text style={styles.timerIcon}>⏱️</Text>
+              <Text style={[styles.timerValue, timer <= 5 && { color: '#FEE2E2' }]}>
+                {timer} <Text style={styles.secLabel}>sec</Text>
+              </Text>
+            </View>
+            <LogoutButton />
           </View>
         </View>
 

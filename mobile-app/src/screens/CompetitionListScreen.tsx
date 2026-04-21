@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import apiClient from '../api/client';
+import LogoutButton from '../components/LogoutButton';
 
 const { width } = Dimensions.get('window');
 
@@ -73,7 +74,7 @@ export default function CompetitionListScreen({ navigation }: any) {
             </View>
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Available Challenges</Text>
-          <View style={{ width: 44 }} />
+          <LogoutButton />
         </View>
 
         <ScrollView
@@ -192,6 +193,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '900',
     fontStyle: 'italic',
+  },
+  logoutBtn: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(239, 68, 68, 0.3)',
+  },
+  logoutText: {
+    color: '#EF4444',
+    fontSize: 12,
+    fontWeight: '700',
   },
   scrollContent: {
     padding: 24,

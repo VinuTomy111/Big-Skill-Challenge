@@ -4,6 +4,7 @@ import {
   ScrollView, StatusBar, Dimensions
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import LogoutButton from '../components/LogoutButton';
 
 const { width } = Dimensions.get('window');
 
@@ -30,9 +31,10 @@ export default function EligibilityScreen({ navigation }: any) {
     >
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
-
-
-
+        <View style={styles.header}>
+          <View />
+          <LogoutButton />
+        </View>
 
         <ScrollView 
           contentContainerStyle={styles.scrollContent}
@@ -118,6 +120,13 @@ export default function EligibilityScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
   scrollContent: {
     padding: 24,
