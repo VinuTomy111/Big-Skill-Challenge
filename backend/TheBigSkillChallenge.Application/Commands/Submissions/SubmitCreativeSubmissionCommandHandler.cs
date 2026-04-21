@@ -89,12 +89,12 @@ public class SubmitCreativeSubmissionCommandHandler : IRequestHandler<SubmitCrea
 
         await _sentimentRepository.AddAsync(submission);
 
-        var user = await _userRepository.GetByIdAsync(request.UserId);
-        if (user != null)
-        {
-            string emailBody = $"Your entry has been accepted.\nReference Number: {submission.ReferenceNumber}\nWord Count: 25/25\nSubmitted At: {submission.CreatedAt}";
-            await _emailService.SendEmailAsync(user.Email, "Creative Submission Accepted", emailBody);
-        }
+        //var user = await _userRepository.GetByIdAsync(request.UserId);
+        //if (user != null)
+        //{
+        //    string emailBody = $"Your entry has been accepted.\nReference Number: {submission.ReferenceNumber}\nWord Count: 25/25\nSubmitted At: {submission.CreatedAt}";
+        //    await _emailService.SendEmailAsync(user.Email, "Creative Submission Accepted", emailBody);
+        //}
 
         await _auditLogService.LogAsync("Creative Submission Success", "CreativeSubmission", $"Submission mapped to reference {submission.ReferenceNumber} with score {score}", request.UserId);
 
