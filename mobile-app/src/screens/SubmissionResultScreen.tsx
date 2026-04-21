@@ -12,6 +12,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
+import LogoutButton from '../components/LogoutButton';
 
 export default function SubmissionResultScreen({ route, navigation }: any) {
   const { result } = route.params;
@@ -42,6 +43,7 @@ export default function SubmissionResultScreen({ route, navigation }: any) {
           >
             <Ionicons name="close" size={28} color="white" />
           </TouchableOpacity>
+          <LogoutButton />
         </View>
 
         <View style={styles.statusContainer}>
@@ -138,8 +140,9 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 60,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   closeButton: {
     padding: 8,

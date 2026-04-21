@@ -17,6 +17,7 @@ import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import LogoutButton from '../components/LogoutButton';
 
 const API_BASE_URL = 'http://localhost:5099';
 
@@ -110,10 +111,13 @@ export default function CreativeSubmissionScreen({ route, navigation }: any) {
               <Text style={styles.title}>Creative Submission</Text>
               <Text style={styles.subtitle}>Exactly 25 words required</Text>
             </View>
-            <BlurView intensity={30} tint="dark" style={styles.timerBadge}>
-              <Ionicons name="timer-outline" size={20} color="#38bdf8" />
-              <Text style={styles.timerText}>{formatTime(timeLeft)}</Text>
-            </BlurView>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <BlurView intensity={30} tint="dark" style={styles.timerBadge}>
+                <Ionicons name="timer-outline" size={20} color="#38bdf8" />
+                <Text style={styles.timerText}>{formatTime(timeLeft)}</Text>
+              </BlurView>
+              <LogoutButton />
+            </View>
           </View>
 
           <View style={styles.progressContainer}>

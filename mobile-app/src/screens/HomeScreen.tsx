@@ -4,6 +4,7 @@ import {
   ScrollView, StatusBar, Dimensions
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import LogoutButton from '../components/LogoutButton';
 
 const { width } = Dimensions.get('window');
 
@@ -41,7 +42,7 @@ export default function HomeScreen({ navigation }: any) {
               <Text style={styles.backArrow}>←</Text>
             </View>
           </TouchableOpacity>
-
+          <LogoutButton />
         </View>
 
 
